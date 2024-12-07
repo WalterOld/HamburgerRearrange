@@ -1,9 +1,24 @@
 import { extension_settings, getContext, loadExtensionSettings } from "../../../extensions.js";
 import { saveSettingsDebounced } from "../../../../script.js";
-import { Sortable } from 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js';
 
 const extensionName = "rearrange-hamburger";
 const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
+
+// Load Sortable.js dynamically
+async function loadSortableJS() {
+    return new Promise((resolve, reject) => {
+        if (window.Sortable) {
+            resolve(window.Sortable);
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js';
+        script.onload = () => resolve(window.Sortable);
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
 
 let preferredOrder = [
     "option_toggle_AN",
@@ -37,7 +52,7 @@ function initializeOrder() {
     }
 }
 
-function createReorderButton() {
+async function createReorderButton() {
     const button = document.createElement('a');
     button.id = 'option_reorder';
     button.className = 'interactable';
@@ -47,7 +62,8 @@ function createReorderButton() {
         <span>Rearrange Menu</span>
     `;
 
-    button.onclick = () => {
+    button.onclick = async () => {
+        const Sortable = await loadSortableJS();
         const dialog = document.createElement('dialog');
         dialog.style.cssText = 'padding: 0; border: none; background: transparent;';
         const menu = document.querySelector(".options-content");
