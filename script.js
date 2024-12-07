@@ -1,5 +1,6 @@
 import { extension_settings, getContext, loadExtensionSettings } from "../../../extensions.js";
 import { saveSettingsDebounced } from "../../../../script.js";
+import { Sortable } from 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js';
 
 const extensionName = "rearrange-hamburger";
 const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
