@@ -52,7 +52,7 @@ function initializeOrder() {
     }
 }
 
-async function createReorderButton() {
+function createReorderButton() {
     const button = document.createElement('a');
     button.id = 'option_reorder';
     button.className = 'interactable';
@@ -63,7 +63,7 @@ async function createReorderButton() {
     `;
 
     button.onclick = async () => {
-        const Sortable = await loadSortableJS();
+        await loadSortableJS();
         const dialog = document.createElement('dialog');
         dialog.style.cssText = 'padding: 0; border: none; background: transparent;';
         const menu = document.querySelector(".options-content");
@@ -127,7 +127,7 @@ async function createReorderButton() {
     return button;
 }
 
-function rearrangeMenu() {
+async function rearrangeMenu() {
     const menu = document.querySelector(".options-content");
     if (!menu) return;
 
@@ -140,7 +140,8 @@ function rearrangeMenu() {
         orderedItems.push(existingReorderBtn);
         orderedItems.push(document.createElement('hr'));
     } else {
-        orderedItems.push(createReorderButton());
+        const reorderBtn = createReorderButton();
+        orderedItems.push(reorderBtn);
         orderedItems.push(document.createElement('hr'));
     }
 
@@ -171,6 +172,9 @@ function rearrangeMenu() {
 }
 
 jQuery(async () => {
+    // Load Sortable.js at startup
+    await loadSortableJS();
+
     const style = document.createElement('style');
     style.textContent = `
         .options-content a { cursor: pointer; }
