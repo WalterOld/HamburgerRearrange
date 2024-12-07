@@ -3,10 +3,7 @@
     "loading_order": 9,
     "requires": [],
     "optional": [],
-    "js": [
-        "https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js",
-        "script.js"
-    ],
+    "js": "script.js",
     "author": "Waltuh",
     "version": "1.0.0",
     "homePage": "NaN",
